@@ -3,7 +3,7 @@ FROM node:18
 WORKDIR /usr/src/app
 
 COPY . .
-RUN npm install
+RUN npm ci
 RUN npm install -g nodemon
 
 EXPOSE 3001
