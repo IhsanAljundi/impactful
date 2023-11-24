@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 const { generateToken, verifyToken } = require("./auth");
 const User = require("./models/User");
@@ -18,6 +19,9 @@ db.once("open", () => {
   console.log("Connected to MongoDB successfully");
 });
 
+app.use(cors());
+app.options("*", cors());
+
 app.use(express.json());
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
@@ -28,23 +32,30 @@ app.get("/", (req, res) => {
 });
 
 app.post("/signup", async (req, res) => {
-  const { username, password, role } = req.body;
+  const { email, username, password, role } = req.body;
 
-  // Check if username already exists
-  const existingUser = await User.findOne({ username });
-  if (existingUser) {
+  // Check if email already exists
+  const existingEmail = await User.findOne({ email });
+  if (existingEmail) {
+    return res.status(400).send({ error: "Email already taken" });
+  }
+
+  // Check if email already exists
+  const existingUsername = await User.findOne({ username });
+  if (existingUsername) {
     return res.status(400).send({ error: "Username already taken" });
   }
 
-  const user = new User({ username, password, role });
+  const user = new User({ email, username, password, role });
   await user.save();
 
-  res.status(201).send({ message: "User created successfully" });
+  const token = generateToken(user);
+  res.status(201).send({ token });
 });
 
 app.post("/login", async (req, res) => {
-  const { username, password } = req.body;
-  const user = await User.findOne({ username });
+  const { email, password } = req.body;
+  const user = await User.findOne({ email });
 
   if (user && (await user.comparePassword(password))) {
     const token = generateToken(user);
