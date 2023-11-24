@@ -4,9 +4,9 @@ import { RegisterRole } from "./RegisterRole";
 import { RegisterIndividual } from "./RegisterIndividual";
 import { RegisterOrganization } from "./RegisterOrganization";
 
-import { ReactComponent as AmplifyIcon } from "./illustrations/amplify.svg";
-import { ReactComponent as CommunityIcon } from "./illustrations/community.svg";
-import { ReactComponent as StartIcon } from "./illustrations/start.svg";
+import { ReactComponent as AmplifyIllustration } from "./illustrations/amplify.svg";
+import { ReactComponent as CommunityIllustration } from "./illustrations/community.svg";
+import { ReactComponent as StartIllustration } from "./illustrations/start.svg";
 
 const Register = () => {
   const [page, setPage] = useState(0);
@@ -16,11 +16,11 @@ const Register = () => {
     <main className="container grid grid-cols-1 lg:grid-cols-2 gap-16 py-8 lg:py-16 min-h-screen">
       <div className="flex flex-col items-center justify-center p-4 pb-8 text-center border border-gray-300 rounded-2xl">
         {page === 0 ? (
-          <StartIcon className="w-3/4 lg:w-1/2" />
+          <StartIllustration className="w-3/4 lg:w-1/2" />
         ) : role === "individual" ? (
-          <CommunityIcon className="w-3/4 lg:w-1/2" />
+          <CommunityIllustration className="w-3/4 lg:w-1/2" />
         ) : role === "organization" ? (
-          <AmplifyIcon className="w-3/4 lg:w-1/2" />
+          <AmplifyIllustration className="w-3/4 lg:w-1/2" />
         ) : null}
 
         <h2 className="lg:mt-8 text-2xl font-semibold">

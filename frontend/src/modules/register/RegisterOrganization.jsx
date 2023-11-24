@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
@@ -121,8 +121,15 @@ const RegisterOrganization = () => {
         />
       </div>
 
+      <p className="mt-8 lg:mt-auto">
+        Already have an account?{" "}
+        <Link className="text-blue font-semibold" to="/login">
+          Login
+        </Link>
+      </p>
+
       <Button
-        className="mt-8 lg:mt-auto w-full"
+        className="mt-2 w-full"
         trailing={<ChevronIcon />}
         loading={loading}
         variant="fill"

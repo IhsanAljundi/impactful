@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 
 import { Button } from "../../elements";
@@ -61,8 +62,15 @@ const RegisterRole = ({ role, setRole, onContinue }) => (
       />
     </div>
 
+    <p className="mt-8 lg:mt-auto">
+      Already have an account?{" "}
+      <Link className="text-blue font-semibold" to="/login">
+        Login
+      </Link>
+    </p>
+
     <Button
-      className="mt-8 lg:mt-auto w-full"
+      className="mt-2 w-full"
       variant="fill"
       trailing={<ChevronIcon />}
       onClick={onContinue}
