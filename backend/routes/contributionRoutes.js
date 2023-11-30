@@ -3,7 +3,8 @@ const express = require('express');
 const router = express.Router();
 const contributionController = require('../controllers/contributionController');
 
-router.post('/contribution', contributionController.createContribution);
-router.get('/contributions', contributionController.getListOfContributions);
+router.post('/volunteer', contributionController.volunteer);
+router.post('/donation', contributionController.donation);
+router.get('/contributions', contributionController.getListContributions);
 
 module.exports = router;
