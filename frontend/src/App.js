@@ -9,6 +9,8 @@ import { Register } from "./modules/register/Register";
 import { Login } from "./modules/login/Login";
 import { Profile } from "./modules/profile/Profile";
 
+import { UserProvider } from "./providers";
+
 function App() {
   return (
     <Provider store={store}>
@@ -23,6 +25,8 @@ function App() {
       </Routes>
 
       <Toaster />
+
+      <UserProvider />
     </Provider>
   );
 }
