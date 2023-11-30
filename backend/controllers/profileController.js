@@ -14,8 +14,12 @@ exports.getCurrentProfile = async (req, res) => {
       "user.username": user.username,
     }).populate("user");
 
-    if (profile) return res.send(profile);
-    return res.send({ email: user.email, username: user.username });
+    return res.send({
+      email: user.email,
+      username: user.username,
+      role: user.role,
+      ...profile,
+    });
   } catch (e) {
     return res.status(500).send({ error: "Error retrieving profile" });
   }
@@ -34,8 +38,12 @@ exports.getProfileByUsername = async (req, res) => {
       "user.username": username,
     }).populate("user");
 
-    if (profile) return res.send(profile);
-    return res.send({ email: user.email, username: user.username });
+    return res.send({
+      email: user.email,
+      username: user.username,
+      role: user.role,
+      ...profile,
+    });
   } catch (e) {
     return res.status(500).send({ error: "Error retrieving profile" });
   }
