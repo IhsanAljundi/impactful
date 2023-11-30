@@ -26,20 +26,28 @@ exports.getPostsByUid = async (req, res) => {
   const { uid } = req.params;
 
   try {
-    const posts = await Post.find({ user: uid }).populate("user");
+    const posts = await Post.find({ user: uid })
+      .populate("user")
+      .populate("comments")
+      .populate("likes");
+
     return res.send(
       posts.map((post) => ({
         id: post._id,
+        createdAt: post.createdAt,
+
         user: {
           id: post.user._id,
           email: post.user.email,
           username: post.user.username,
           role: post.user.role,
         },
+
         title: post.title,
         content: post.content,
         cover: post.cover,
-        comments: post.comment,
+
+        comments: post.comments,
         likes: post.likes,
       }))
     );
