@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import { store } from "./stores/store";
 
 import { Home } from "./modules/home/Home";
+import { Feeds } from "./modules/feeds/Feeds";
 import { Register } from "./modules/register/Register";
 import { Login } from "./modules/login/Login";
 import { Profile } from "./modules/profile/Profile";
@@ -16,6 +17,7 @@ function App() {
     <Provider store={store}>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/feeds" element={<Feeds />} />
 
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
