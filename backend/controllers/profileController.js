@@ -15,6 +15,7 @@ exports.getCurrentProfile = async (req, res) => {
     }).populate("user");
 
     return res.send({
+      id: user._id,
       email: user.email,
       username: user.username,
       role: user.role,
@@ -39,6 +40,7 @@ exports.getProfileByUsername = async (req, res) => {
     }).populate("user");
 
     return res.send({
+      id: user._id,
       email: user.email,
       username: user.username,
       role: user.role,

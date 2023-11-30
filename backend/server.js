@@ -11,6 +11,8 @@ const {
   getProfileByUsername,
 } = require("./controllers/profileController");
 
+const { createPost, getPostsByUid } = require("./controllers/postController");
+
 const app = express();
 const port = 3001;
 
@@ -73,3 +75,6 @@ app.post("/login", async (req, res) => {
 
 app.get("/profile", verifyToken, getCurrentProfile);
 app.get("/profile/:username", getProfileByUsername);
+
+app.post("/post", verifyToken, createPost);
+app.get("/posts/:uid", getPostsByUid);
