@@ -1,0 +1,45 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --blue: #52c3ff;
+  --gold: #ffcb57;
+  --peach: #ffdfd6;
+  --pink: #ffdfd6;
+  --stone: #172239;
+  --turqoise: #5ae2e2;
+
+  --white: #ffffff;
+  --gray-100: #f9f9f9;
+  --gray-200: #eaeaea;
+  --gray-300: #d5d4d4;
+  --gray-700: #6d6d6d;
+  --gray-900: #161616;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  width: 100vw;
+
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  overflow: auto;
+  position: relative;
+
+  height: 100vh;
+  width: 100vw;
+
+  font-family: Montserrat;
+  color: var(--gray-900);
+}
