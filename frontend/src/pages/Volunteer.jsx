@@ -1,12 +1,50 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
-import { FaAngleRight } from 'react-icons/fa';
 import { IoChevronBackOutline } from 'react-icons/io5';
-import { AiOutlineDollar } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
-import { CiUser } from 'react-icons/ci';
 
 const Volunteer = () => {
+  const [volunteerData, setVolunteerData] = useState({
+    name: '',
+    email: '',
+    reason: '',
+    availability: '', // Changed to string
+  });
+
+  const handleCheckboxChange = (day) => {
+    const currentAvailability = volunteerData.availability.split(', ');
+    const updatedAvailability = currentAvailability.includes(day) ? currentAvailability.filter((d) => d !== day) : [...currentAvailability, day];
+    setVolunteerData({
+      ...volunteerData,
+      availability: updatedAvailability.join(', '),
+    });
+  };
+
+  const handleSignUp = async () => {
+    try {
+      const response = await fetch('/api/contribution/volunteer', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(volunteerData),
+      });
+
+      const responseData = await response.json();
+
+      if (response.ok) {
+        console.log('Volunteer created successfully:', responseData);
+        // Handle success, e.g., show a success message, redirect, etc.
+      } else {
+        console.error('Failed to create volunteer:', responseData.message);
+        // Handle error, e.g., show an error message to the user
+      }
+    } catch (error) {
+      console.error('Error creating volunteer:', error);
+      // Handle unexpected errors
+    }
+  };
+
   return (
     <div className="flex flex-col md:flex-row p-4 md:p-12">
       <div className="md:w-1/5">
@@ -34,38 +72,16 @@ const Volunteer = () => {
             <p className="text-[#6D6D78] text-xl">Why you want to volunteer</p>
             <textarea type="text" placeholder="Explain your motivations" className="border-2 border-solid w-full py-2 px-4 mt-4 rounded-2xl resize-y max-h-40" />
           </div>
-          <div className='mt-6 flex flex-col'>
-            <p className='text-[#6D6D78] text-xl'>Availability</p>
-            <label className="inline-flex items-center mt-3">
-              <input type="checkbox" className="w-4 h-4 rounded-full" />
-              <span className="ml-4 font-regular text-xl">Monday</span>
-            </label>
-            <label className="inline-flex items-center mt-1">
-              <input type="checkbox" className="w-4 h-4 rounded-full" />
-              <span className="ml-4 font-regular text-xl">Tuesday</span>
-            </label>
-            <label className="inline-flex items-center mt-1">
-              <input type="checkbox" className="w-4 h-4 rounded-full" />
-              <span className="ml-4 font-regular text-xl">Wednesday</span>
-            </label>
-            <label className="inline-flex items-center mt-1">
-              <input type="checkbox" className="w-4 h-4 rounded-full" />
-              <span className="ml-4 font-regular text-xl">Thursday</span>
-            </label>
-            <label className="inline-flex items-center mt-1">
-              <input type="checkbox" className="w-4 h-4 rounded-full" />
-              <span className="ml-4 font-regular text-xl">Friday</span>
-            </label>
-            <label className="inline-flex items-center mt-1">
-              <input type="checkbox" className="w-4 h-4 rounded-full" />
-              <span className="ml-4 font-regular text-xl">Saturday</span>
-            </label>
-            <label className="inline-flex items-center mt-1">
-              <input type="checkbox" className="w-4 h-4 rounded-full" />
-              <span className="ml-4 font-regular text-xl">Sunday</span>
-            </label>
+          <div className="mt-6 flex flex-col">
+            <p className="text-[#6D6D78] text-xl">Availability</p>
+            {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((day) => (
+              <label key={day} className="inline-flex items-center mt-3">
+                <input type="checkbox" className="w-4 h-4 rounded-full" checked={volunteerData.availability.includes(day)} onChange={() => handleCheckboxChange(day)} />
+                <span className="ml-4 font-regular text-xl">{day}</span>
+              </label>
+            ))}
           </div>
-          <button className="bg-[#FFDFD6] border-2 border-solid rounded-3xl p-2 md:p-4 w-full mt-2 md:mt-4">
+          <button className="bg-[#FFDFD6] border-2 border-solid rounded-3xl p-2 md:p-4 w-full mt-2 md:mt-4" onClick={handleSignUp}>
             <div className="flex flex-row justify-center items-center gap-2 md:gap-12">
               <p className="font-semibold text-base md:text-xl ">Sign Up</p>
             </div>
