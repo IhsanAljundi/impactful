@@ -66,10 +66,15 @@ module.exports = {
       // Ambil daftar kampanye yang diikuti oleh pengguna sebagai relawan
       const volunteerCampaigns = await Volunteer.find({ userId }).populate('campaign');
 
+      //Fixed Only return the campaigns
+      const campaigns = [
+        ...donationCampaigns.map(donation => donation.campaign),
+        ...volunteerCampaigns.map(volunteer => volunteer.campaign),
+      ];
+
       return res.status(200).json({
         success: true,
-        donationCampaigns,
-        volunteerCampaigns,
+        campaigns,
       });
     } catch (error) {
       console.error(error);
