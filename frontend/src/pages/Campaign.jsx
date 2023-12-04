@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 
 import { IoChevronBackOutline } from 'react-icons/io5';
@@ -7,13 +7,20 @@ import { IoSearchOutline } from 'react-icons/io5';
 
 const Campaign = () => {
   const [campaigns, setCampaigns] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
 
   // Fetch campaigns when the component mounts
-  useEffect(() => {
+ useEffect(() => {
     const fetchCampaigns = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/campaign'); // Update with your backend URL
-        setCampaigns(response.data);
+        const response = await fetch(`${process.env.REACT_APP_API_HOST}/campaigns`); 
+
+        if(!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();  
+        setCampaigns(data);
       } catch (error) {
         console.error('Error fetching campaigns:', error);
       }
@@ -21,8 +28,6 @@ const Campaign = () => {
 
     fetchCampaigns();
   }, []);
-
-  const [searchTerm, setSearchTerm] = useState('');
 
   const handleInputChange = () => {
     setSearchTerm(e.target.value);
