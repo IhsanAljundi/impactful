@@ -22,8 +22,13 @@ module.exports = {
 
     try {
       // Simpan data donation ke database
-      const newDonation = new Donation({ donationAmount, email, payment, campaign });
-      await newDonation.save();
+      const donation = new Donation({
+        donationAmount,
+        email,
+        payment,
+        campaign
+      });
+      await donation.save();
 
       return res.status(201).json({ success: true, message: 'Donation created successfully' });
     } catch (error) {
@@ -44,6 +49,27 @@ module.exports = {
         success: true,
         volunteerContributions,
         donationContributions,
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ success: false, message: 'Internal Server Error' });
+    }
+  },
+
+  getListFollowedCampaigns: async (req, res) => {
+    const userId = req.user.id; // Ambil ID pengguna dari data otentikasi (asumsi otentikasi sudah ditangani sebelumnya)
+
+    try {
+      // Ambil daftar kampanye yang diikuti oleh pengguna sebagai donatur
+      const donationCampaigns = await Donation.find({ userId }).populate('campaign');
+
+      // Ambil daftar kampanye yang diikuti oleh pengguna sebagai relawan
+      const volunteerCampaigns = await Volunteer.find({ userId }).populate('campaign');
+
+      return res.status(200).json({
+        success: true,
+        donationCampaigns,
+        volunteerCampaigns,
       });
     } catch (error) {
       console.error(error);
