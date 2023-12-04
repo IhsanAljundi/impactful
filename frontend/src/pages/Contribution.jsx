@@ -1,11 +1,33 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
+
 import { FaAngleRight } from 'react-icons/fa';
-import { IoChevronBackOutline } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
-import { IoSearchOutline } from 'react-icons/io5';
 
 const Contribution = () => {
+  const [followedCampaigns, setFollowedCampaigns] = useState([]);
+
+  useEffect(() => {
+    //fungsi mengambil campaign yang telah diikuti oleh user
+    const fetchFollowedCampaigns = async () => {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_API_HOST}/contributions/followed-campaigns`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        const data = await response.json();
+        setFollowedCampaigns([...data.donationCampaigns, ...data.volunteerCampaigns]);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchFollowedCampaigns();
+  }, []);
+
   return (
     <div className="flex flex-col md:flex-row p-12">
       <div className="md:w-1/5">
@@ -18,14 +40,27 @@ const Contribution = () => {
           <p className="font-semibold text-2xl md:text-4xl mb-1">Contributions</p>
         </div>
 
-        <div className="relative mb-12">
-          <input type="text" placeholder="Search for campaigns" className="text-xl border p-3 pl-12 rounded-2xl w-full" />
-          <button className="absolute left-3 top-1/2 transform -translate-y-1/2">
-            <IoSearchOutline className="w-8 h-8" />
-          </button>
-        </div>
+        <div className="flex flex-wrap gap-4 md:gap-20">
+          {/* Hasil Kontribusi */}
+          {followedCampaigns.map((campaign, index) => (
+            <div key={index} className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 mb-8">
+              <Link to={`/campaign/${campaign._id}`}>
+                <div className="border border-gray-300 rounded-lg overflow-hidden">
+                  {campaign.isDonation && <p className="text-[#6D6D78] text-base mb-1">Donator</p>}
+                  {campaign.isVolunteer && <p className="text-[#6D6D78] text-base mb-1">Volunteer</p>}
 
-        <div className="flex flex-wrap gap-4 md:gap-20">{/* Tampilkan hasil kontribusi yang user sudah lakukan */}</div>
+                  <img src={campaign.coverImage} alt={campaign.title} className="w-full h-32 object-cover" />
+                  <div className="p-4">
+                    <h3 className="text-xl font-semibold mb-2">{campaign.title}</h3>
+                    <p className="text-gray-600">
+                      {campaign.startDate} - {campaign.endDate}
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Aside Kanan (Button) */}
