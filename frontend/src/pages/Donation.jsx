@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Navbar from '../components/Navbar';
 import { IoChevronBackOutline } from 'react-icons/io5';
 import { Link } from 'react-router-dom';

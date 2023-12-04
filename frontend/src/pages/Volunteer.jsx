@@ -22,7 +22,7 @@ const Volunteer = () => {
 
   const handleSignUp = async () => {
     try {
-      const response = await fetch('/api/contribution/volunteer', {
+      const response = await fetch(`${process.env.REACT_APP_API_HOST}/volunteer`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
