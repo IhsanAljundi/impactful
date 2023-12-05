@@ -1,5 +1,9 @@
+export { ReactComponent as ChartIcon } from "./chart.svg";
+export { ReactComponent as ChatIcon } from "./chat.svg";
 export { ReactComponent as ChevronIcon } from "./chevron.svg";
+export { ReactComponent as EditIcon } from "./edit.svg";
 export { ReactComponent as EmailIcon } from "./email.svg";
+export { ReactComponent as HeartIcon } from "./heart.svg";
 export { ReactComponent as LoadingIcon } from "./loading.svg";
 export { ReactComponent as LockIcon } from "./lock.svg";
 export { ReactComponent as MessageIcon } from "./message.svg";

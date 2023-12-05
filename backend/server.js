@@ -4,6 +4,18 @@ const cors = require("cors");
 
 const { generateToken, verifyToken } = require("./auth");
 const User = require("./models/User");
+const Profile = require("./models/Profile");
+
+const {
+  getCurrentProfile,
+  getProfileByUsername,
+} = require("./controllers/profileController");
+
+const {
+  createPost,
+  getAllPosts,
+  getPostsByUid,
+} = require("./controllers/postController");
 
 const app = express();
 const port = 3001;
@@ -64,3 +76,10 @@ app.post("/login", async (req, res) => {
 
   res.status(400).json({ error: "Invalid credentials" });
 });
+
+app.get("/profile", verifyToken, getCurrentProfile);
+app.get("/profile/:username", getProfileByUsername);
+
+app.post("/post", verifyToken, createPost);
+app.get("/posts", getAllPosts);
+app.get("/posts/:uid", getPostsByUid);
